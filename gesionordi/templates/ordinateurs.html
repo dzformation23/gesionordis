@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Ordinateurs{% endblock %}
+
+{% block content %}
+<section class="cards">
+  <div class="card blue">Total Bureaux<br><span>{{ bureaux|length }}</span></div>
+  <div class="card green">Total Portables<br><span>{{ portables|length }}</span></div>
+</section>
+
+<h2>💻 Ordinateurs Portables</h2>
+
+<section class="cards-row">
+  <!-- ✅ Cartes alignées à gauche -->
+  <div class="cards">
+    <div class="card blue bi bi-pc-display">
+      <a href="{% url 'bureau' %}">Bureaux</a>
+    </div>
+    <div class="card green bi bi-laptop">
+      <a href="{% url 'portable' %}">Portables</a>
+    </div>
+  </div>
+
+  <!-- ✅ Barre de recherche alignée à droite -->
+  <input type="text" id="searchPortable" placeholder="🔍 Rechercher..." class="search-input">
+</section>
+
+
+<div class="table-wrapper">
+  <table id="portableTable">
+    <thead>
+      <tr class="small">
+        <th>Modèle</th><th>Numéro</th><th>Utilisateur</th><th>Statut</th><th>Garantie</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pc in portables %}
+      <tr class="small">
+        <td class="small">{{ pc.modele }}</td>
+        <td class="small">{{ pc.numero }}</td>
+        <td class="small">{{ pc.utilisateur }}</td>
+        <td class="small">{{ pc.statut }}</td>
+        <td class="small">{{ pc.garantie }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

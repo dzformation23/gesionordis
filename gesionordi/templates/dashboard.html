@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<section class="cards">
+  <div class="card blue">Ordinateurs Totaux<br><span>{{ total_pc }}</span></div>
+  <div class="card green">Connectés<br><span>{{ online_pc }}</span></div>
+  <div class="card red">Hors Ligne<br><span>{{ offline_pc }}</span></div>
+  <div class="card orange">Problèmes Détectés<br><span>{{ alerts }}</span></div>
+</section>
+
+<section class="charts">
+  <div class="chart">
+    <h2>État du Parc Informatique</h2>
+    <canvas id="osChart"></canvas>
+  </div>
+  <div class="chart">
+    <h2>Performances du Système</h2>
+    <p>CPU : {{ cpu_usage }}%</p>
+    <p>RAM : {{ ram_usage }}%</p>
+    <p>Espace Disque : {{ disk_used }} GB / {{ disk_total }} GB</p>
+  </div>
+</section>
+{% endblock %}
