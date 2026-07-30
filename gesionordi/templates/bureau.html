@@ -21,31 +21,155 @@
     </div>
   </div>
 
-  <!-- ✅ Barre de recherche alignée à droite -->
-  <input type="text" id="searchPortable" placeholder="🔍 Rechercher..." class="search-input">
+  
+<!-- ✅ Bouton Créer -->
+<div class="actions">
+  <button class="btn-create" onclick="openModal()">➕ Créer</button>
+</div>
+ 
 </section>
 
+ <!-- ✅ Barre de recherche alignée à droite -->
+  <input type="text" id="searchPortable" placeholder="🔍 Rechercher..." class="search-input">
 
 <div class="table-wrapper">
   <table id="portableTable">
     <thead>
       <tr class="small">
-        <th>Modèle</th><th>N°seri</th><th>Utilisateur</th><th>Statut</th><th>Garantie</th><th>Action</th>
+        <th>Modèle</th>
+        <th>N°seri</th>
+        <th>Utilisateur</th>
+        <th>Statut</th>
+        <th>Date_Achart</th>
+        <th>Garantie</th>
+        <th>Durée de Vie</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      {% for pc in portables %}
-      <tr class="small">
-        <td class="small">{{ pc.modele }}</td>
-        <td class="small">{{ pc.numero }}</td>
-        <td class="small">{{ pc.utilisateur }}</td>
-        <td class="small">{{ pc.statut }}</td>
-        <td class="small">{{ pc.garantie }}</td>
-         <td class="small"></td>
-      </tr>
+      {% for pc in bureaux %}
+      <tr>
+        <td>{{ pc.modele }}</td>
+        <td>{{ pc.numero }}</td>
+        <td>{{ pc.utilisateur }}</td>
+        <td>{{ pc.statut }}</td>
+        <td>{{ pc.date_achat }}</td>
+        <td>{{ pc.garantie }}</td>
+        <td>{{ pc.duree_vie }}</td>
+       
+        <td class="actions">
+          <!-- Détail -->
+          <a href="{% url 'detail_pc' pc.id %}" class="btn-action" title="Détails">
+            <i class="bi bi-eye"></i>
+          </a>
+
+          <!-- Modifier -->
+          <a href="{% url 'modifier_pc' pc.id %}" class="btn-action " title="Modifier">
+            <i class="bi bi-pencil-square"></i>
+          </a>
+
+          <!-- Supprimer -->
+          <a href="{% url 'supprimer_pc' pc.id %}" class="btn-action text-danger" title="Supprimer">
+            <i class="bi bi-trash"></i>
+          </a>
+        </td>
+
+       
       </tr>
       {% endfor %}
+ 
     </tbody>
   </table>
 </div>
+
+
+
+<!-- ✅ Fenêtre modale -->
+<div id="createModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3>➕ Ajouter un Ordinateur</h3>
+    <form method="post" action="#">
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label for="type">Type</label>
+        <div class="input-icon">
+          <i class="bi bi-pc-display"></i>
+          <input type="text" id="type" name="type" value="Bureau" readonly>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label for="modele">Modèle</label>
+        <div class="input-icon">
+          <i class="bi bi-pc-display"></i>
+          <input type="text" id="modele" name="modele" placeholder="Ex: Dell Optiplex" required>
+        </div>
+      </div>
+
+       <div class="form-group">
+          <label for="designation">Designation</label>
+          <div class="input-icon">
+            <i class="bi bi-pc-display"></i>
+            <input type="text" id="designation" name="designation" placeholder="Ex: Core i7" required>
+          </div>
+      </div>
+
+
+      <div class="form-group">
+        <label for="numero">N° Série</label>
+        <div class="input-icon">
+          <i class="bi bi-upc-scan"></i>
+          <input type="text" id="numero" name="numero" placeholder="Ex: SN12345" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="utilisateur">Utilisateur</label>
+        <div class="input-icon">
+          <i class="bi bi-person"></i>
+          <input type="text" id="utilisateur" name="utilisateur" placeholder="Nom de l’utilisateur">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="statut">Statut</label>
+        <div class="input-icon">
+          <i class="bi bi-check-circle"></i>
+          <select id="statut" name="statut">
+            <option value="Actif">Actif</option>
+            <option value="En panne">En panne</option>
+            <option value="En maintenance">En maintenance</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="date_achat">Date d’Achat</label>
+        <div class="input-icon">
+          <i class="bi bi-calendar-date"></i>
+          <input type="date" id="date_achat" name="date_achat">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="garantie">Garantie</label>
+        <div class="input-icon">
+          <i class="bi bi-shield-check"></i>
+          <input type="text" id="garantie" name="garantie" placeholder="Ex: 1 an">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">✅ Enregistrer</button>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+
 {% endblock %}

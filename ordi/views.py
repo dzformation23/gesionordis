@@ -1,4 +1,7 @@
-from django.shortcuts import render
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Ordinateur, Employe
+from django.contrib import messages
 
 # Create your views here.
 
@@ -9,29 +12,83 @@ def dashboard(request):
 
 
 
-
+# Vue globale : tous les ordinateurs
 def ordinateurs(request):
-    # Exemple de données simulées (normalement récupérées depuis ta base de données)
-    ordinateurs = [
-        {"type": "Bureau", "modele": "Dell Optiplex 7090", "numero": "SN12345", "utilisateur": "Jean Dupont", "statut": "Actif", "garantie": 2027},
-        {"type": "Portable", "modele": "HP EliteBook 840", "numero": "SN67890", "utilisateur": "Marie Koné", "statut": "Maintenance", "garantie": 2026},
-        {"type": "Bureau", "modele": "Lenovo ThinkCentre M720", "numero": "SN54321", "utilisateur": "Non affecté", "statut": "Disponible", "garantie": 2028},
-        {"type": "Portable", "modele": "MacBook Pro 14", "numero": "SN98765", "utilisateur": "Didier ZAHIBO", "statut": "Actif", "garantie": 2029},
-    ]
+    pcs = Ordinateur.objects.all()
+    return render(request, "ordinateurs.html", {"pcs": pcs})
 
-    # Séparer bureau et portable
-    bureaux = [pc for pc in ordinateurs if pc["type"] == "Bureau"]
-    portables = [pc for pc in ordinateurs if pc["type"] == "Portable"]
 
-    return render(request, "ordinateurs.html", {
-        "bureaux": bureaux,
-        "portables": portables,
-    })
+# Vue Bureau uniquement
 
 
 def bureau(request):
-    return render(request, "bureau.html")
+    if request.method == "POST":
+        type_pc = request.POST.get("type")
+        modele = request.POST.get("modele")
+        designation = request.POST.get("designation")
+        numero = request.POST.get("numero")
+        utilisateur_nom = request.POST.get("utilisateur")
+        statut = request.POST.get("statut")
+        date_achat = request.POST.get("date_achat")
+        garantie = request.POST.get("garantie")
+
+        employe = None
+        if utilisateur_nom:
+            employe = Employe.objects.filter(nom=utilisateur_nom).first()
+
+        Ordinateur.objects.create(
+            type=type_pc,
+            modele=modele,
+            designation=designation,
+            numero=numero,
+            utilisateur=employe,
+            statut=statut,
+            date_achat=date_achat,
+            garantie=garantie,
+        )
+
+        # ✅ Message de succès
+        messages.success(request, "Ordinateur enregistré avec succès ✅")
+
+        return redirect("bureau")
+
+    bureaux = Ordinateur.objects.filter(type="Bureau")
+    return render(request, "bureau.html", {"bureaux": bureaux})
 
 
+
+# Vue Portable uniquement
 def portable(request):
-    return render(request, "portable.html")
+    portables = Ordinateur.objects.filter(type="Portable")
+    return render(request, "portable.html", {"portables": portables})
+
+
+
+
+
+
+
+def detail_pc(request, pk):
+    pc = get_object_or_404(Ordinateur, pk=pk)
+    return render(request, "detail_pc.html", {"pc": pc})
+
+def modifier_pc(request, pk):
+    pc = get_object_or_404(Ordinateur, pk=pk)
+    if request.method == "POST":
+        pc.modele = request.POST.get("modele")
+        pc.designation = request.POST.get("designation")
+        pc.numero = request.POST.get("numero")
+        pc.statut = request.POST.get("statut")
+        pc.date_achat = request.POST.get("date_achat")
+        pc.garantie = request.POST.get("garantie")
+        pc.save()
+        return redirect("bureau")
+    return render(request, "modifier_pc.html", {"pc": pc})
+
+
+
+def supprimer_pc(request, pk):
+    pc = get_object_or_404(Ordinateur, pk=pk)
+    pc.delete()
+    messages.error(request, "Ordinateur supprimé ❌")
+    return redirect("bureau")

@@ -30,20 +30,23 @@
   <table id="portableTable">
     <thead>
       <tr class="small">
-        <th>Modèle</th><th>Numéro</th><th>Utilisateur</th><th>Statut</th><th>Garantie</th>
-      </tr>
+       <th>Type</th><th>Modèle</th><th>N° Série</th><th>Utilisateur</th><th>Statut</th><th>Date Achat</th><th>Garantie</th><th>Durée de Vie</th>
+    </tr>
     </thead>
-    <tbody>
-      {% for pc in portables %}
-      <tr class="small">
-        <td class="small">{{ pc.modele }}</td>
-        <td class="small">{{ pc.numero }}</td>
-        <td class="small">{{ pc.utilisateur }}</td>
-        <td class="small">{{ pc.statut }}</td>
-        <td class="small">{{ pc.garantie }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
+   <tbody>
+    {% for pc in pcs %}
+    <tr>
+      <td>{{ pc.type }}</td>
+      <td>{{ pc.modele }}</td>
+      <td>{{ pc.numero }}</td>
+      <td>{{ pc.utilisateur }}</td>
+      <td>{{ pc.statut }}</td>
+      <td>{{ pc.date_achat }}</td>
+      <td>{{ pc.garantie }}</td>
+      <td>{{ pc.duree_vie }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
   </table>
 </div>
 {% endblock %}

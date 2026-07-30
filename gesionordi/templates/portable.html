@@ -25,27 +25,27 @@
   <input type="text" id="searchPortable" placeholder="🔍 Rechercher..." class="search-input">
 </section>
 
-
 <div class="table-wrapper">
   <table id="portableTable">
     <thead>
       <tr class="small">
-        <th>Modèle</th><th>N°seri</th><th>Utilisateur</th><th>Statut</th><th>Garantie</th><th>Action</th>
+        <th>Modèle</th><th>N°seri</th><th>Utilisateur</th><th>Statut</th><th>Date_Achart</th><th>Garantie</th><th>Action</th>
       </tr>
     </thead>
-    <tbody>
-      {% for pc in portables %}
-      <tr class="small">
-        <td class="small">{{ pc.modele }}</td>
-        <td class="small">{{ pc.numero }}</td>
-        <td class="small">{{ pc.utilisateur }}</td>
-        <td class="small">{{ pc.statut }}</td>
-        <td class="small">{{ pc.garantie }}</td>
-         <td class="small"></td>
-      </tr>
-      </tr>
-      {% endfor %}
-    </tbody>
+     <tbody>
+        {% for pc in portables %}
+        <tr>
+          <td>{{ pc.modele }}</td>
+          <td>{{ pc.numero }}</td>
+          <td>{{ pc.utilisateur }}</td>
+          <td>{{ pc.statut }}</td>
+          <td>{{ pc.date_achat }}</td>
+          <td>{{ pc.garantie }}</td>
+          <td>{{ pc.duree_vie }}</td>
+          <td></td>
+        </tr>
+        {% endfor %}
+     </tbody>
   </table>
 </div>
 {% endblock %}

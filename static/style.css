@@ -337,5 +337,181 @@ tbody td:first-child {
 }
 
 
+/****************************Bouton de creation**********************************************************/
+
+.actions {
+  margin-bottom: 10px;   /* espace entre bouton et tableau */
+  text-align: right;     /* bouton aligné à droite */
+}
+
+.btn-create {
+  display: inline-block;
+  background: #277933;       /* bleu clair */
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-create:hover {
+  background: #012034;       /* bleu plus foncé au survol */
+  transform: translateY(-2px);
+}
 
 
+/**************************** formulaire de crere **********************************************************/
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #1a2b3c;
+  padding: 25px;
+  border-radius: 12px;
+  width: 450px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content h3 {
+  color: #00bfff;
+  margin-bottom: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.close {
+  float: right;
+  font-size: 1.5em;
+  color: #aaa;
+  cursor: pointer;
+}
+.close:hover { color: #fff; }
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  background: #23374a;
+  border-radius: 6px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.input-icon i {
+  color: #00bfff;
+  margin-right: 10px;
+  font-size: 1.2em;
+}
+
+.input-icon input,
+.input-icon select {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+}
+
+.input-icon input::placeholder {
+  color: #aaa;
+}
+
+.btn-submit {
+  width: 100%;
+  background: #00bfff;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-submit:hover {
+  background: #3498db;
+  transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+
+
+/* Style pour la colonne Action */
+td.actions {
+  text-align: center;
+  white-space: nowrap;
+}
+
+td.actions a {
+  margin: 0 5px;
+  color: #0d6efd; /* bleu bootstrap */
+  font-size: 1.2rem; /* taille icône */
+  text-decoration: none;
+}
+
+td.actions a:hover {
+  color: #5df169; /* bleu plus foncé au hover */
+}
+
+td.actions a.text-danger {
+  color: #dc3545; /* rouge pour supprimer */
+}
+
+td.actions a.text-danger:hover {
+  color: #bb2d3b;
+}
+
+
+/************************************ Styledes messages *************************************************/
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.toast {
+  background-color: #28a745; /* vert succès */
+  color: white;
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.5s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
