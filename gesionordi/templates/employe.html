@@ -30,28 +30,28 @@
         <th>Action</th>
       </tr>
     </thead>
-    <tbody>
-      {% for emp in employes %}
-      <tr>
-        <td>{{ emp.prenom }} {{ emp.nom }}</td>
-        <td>{{ emp.email }}</td>
-        <td>{{ emp.poste }}</td>
-        <td>{{ emp.statut }}</td>
-        <td>
-          {% for pc in emp.ordinateurs.all %}
-            {{ pc.modele }} ({{ pc.numero }}){% if not forloop.last %}, {% endif %}
-          {% empty %}
-            Aucun
-          {% endfor %}
-        </td>
-        <td>{{ emp.date_embauche }}</td>
-        <td class="actions">
-           <!-- Détail -->
+     <tbody>
+        {% for emp in employes %}
+        <tr>
+          <td>{{ emp.prenom }} {{ emp.nom }}</td>
+          <td>{{ emp.email }}</td>
+          <td>{{ emp.poste }}</td>
+          <td>{{ emp.statut }}</td>
+          <td>
+            {% for pc in emp.ordinateur_set.all %}
+              {{ pc.modele }} ({{ pc.numero }}){% if not forloop.last %}, {% endif %}
+            {% empty %}
+              Aucun
+            {% endfor %}
+          </td>
+          <td>{{ emp.date_embauche }}</td>
+          <td class="actions">
+            <!-- Détail -->
             <a href="javascript:void(0)" 
               class="btn-action" 
               title="Détails"
               onclick="openDetailEmploye('{{ emp.prenom }}','{{ emp.nom }}','{{ emp.email }}',
-              '{{ emp.poste }}','{{ emp.statut }}','{% for pc in emp.ordinateurs.all %}{{ pc.modele }} ({{ pc.numero }}){% if not forloop.last %}, {% endif %}{% endfor %}',
+              '{{ emp.poste }}','{{ emp.statut }}','{% for pc in emp.ordinateur_set.all %}{{ pc.modele }} ({{ pc.numero }}){% if not forloop.last %}, {% endif %}{% endfor %}',
               '{{ emp.date_embauche }}')">
               <i class="bi bi-eye"></i>
             </a>
@@ -61,22 +61,23 @@
               class="btn-action" 
               title="Modifier"
               onclick="openEditEmploye('{{ emp.id }}','{{ emp.prenom }}','{{ emp.nom }}','{{ emp.email }}',
-              '{{ emp.poste }}','{{ emp.statut }}','{% for pc in emp.ordinateurs.all %}{{ pc.modele }} ({{ pc.numero }}){% if not forloop.last %}, {% endif %}{% endfor %}',
+              '{{ emp.poste }}','{{ emp.statut }}','{% for pc in emp.ordinateur_set.all %}{{ pc.modele }} ({{ pc.numero }}){% if not forloop.last %}, {% endif %}{% endfor %}',
               '{{ emp.date_embauche|date:'Y-m-d'}}')">
               <i class="bi bi-pencil-square"></i>
             </a>
 
-          <!-- Supprimer -->
-          <a href="javascript:void(0)" 
-             class="btn-action text-danger" 
-             title="Supprimer"
-             onclick="openDeleteModal('{% url 'supprimer_employe' emp.id %}')">
-             <i class="bi bi-trash"></i>
-          </a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
+            <!-- Supprimer -->
+            <a href="javascript:void(0)" 
+              class="btn-action text-danger" 
+              title="Supprimer"
+              onclick="openDeleteModal('{% url 'supprimer_employe' emp.id %}')">
+              <i class="bi bi-trash"></i>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
   </table>
 </div>
 

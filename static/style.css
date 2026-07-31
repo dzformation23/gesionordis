@@ -912,3 +912,95 @@ td.actions a.text-danger:hover {
 #EditEmploye .close:hover {
   color: #a71d2a;
 }
+
+
+
+
+
+
+/*********************✅ Modal Modifier Employés********************************************************* */
+#editEmployeModal .modal-content {
+  background: #ffffff;          /* fond blanc pur pour meilleure visibilité */
+  color: #333;                  /* texte sombre lisible */
+  padding: 30px;
+  border-radius: 12px;
+  width: 700px;                 /* plus large que le modal créer */
+  max-width: 90%;
+  max-height: 85vh;             /* limite la hauteur */
+  overflow-y: auto;             /* scroll si trop de contenu */
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  animation: fadeIn 0.3s ease;
+}
+
+/* ✅ Titre du modal */
+#editEmployeModal h3 {
+  color: #0d6efd;
+  margin-bottom: 25px;
+  text-align: center;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ✅ Champs du formulaire */
+#editEmployeModal .form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+#editEmployeModal .form-group label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: #0d6efd;
+}
+
+#editEmployeModal .form-group input,
+#editEmployeModal .form-group select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fdfdfd;
+  font-size: 15px;
+  color: #333;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+#editEmployeModal .form-group input:focus,
+#editEmployeModal .form-group select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 6px rgba(13,110,253,0.3);
+  outline: none;
+}
+
+/* ✅ Bouton Mettre à jour */
+#editEmployeModal .btn-submit {
+  width: 100%;
+  background: #0d6efd;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#editEmployeModal .btn-submit:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* ✅ Bouton fermer */
+#editEmployeModal .close {
+  float: right;
+  font-size: 1.6em;
+  font-weight: bold;
+  cursor: pointer;
+  color: #dc3545;
+}
+
+#editEmployeModal .close:hover {
+  color: #a71d2a;
+}

@@ -9,10 +9,7 @@ class Employe(models.Model):
     email = models.EmailField(unique=True)
     poste = models.CharField(max_length=100)
     statut = models.CharField(max_length=50, default="Actif")
-    date_embauche = models.DateField(default=date.today)  # ✅ valeur par défaut
-
-    # ✅ Relation avec Ordinateur
-    ordinateurs = models.ManyToManyField("Ordinateur", blank=True)
+    date_embauche = models.DateField(default=date.today)
 
     def __str__(self):
         return f"{self.prenom} {self.nom}"
