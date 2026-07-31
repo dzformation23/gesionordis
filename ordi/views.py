@@ -28,13 +28,15 @@ def bureau(request):
         designation = request.POST.get("designation")
         numero = request.POST.get("numero")
         utilisateur_nom = request.POST.get("utilisateur")
-        statut = request.POST.get("statut")
         date_achat = request.POST.get("date_achat")
         garantie = request.POST.get("garantie")
 
         employe = None
+        statut = "En stock"  # par défaut
+
         if utilisateur_nom:
             employe = Employe.objects.filter(nom=utilisateur_nom).first()
+            statut = "Actif"  # ✅ si un employé est choisi, l’ordi devient actif
 
         Ordinateur.objects.create(
             type=type_pc,
@@ -47,13 +49,12 @@ def bureau(request):
             garantie=garantie,
         )
 
-        # ✅ Message de succès
-        messages.success(request, "Ordinateur enregistré avec succès ✅")
-
+        messages.success(request, "✅ Ordinateur enregistré avec succès.")
         return redirect("bureau")
 
     bureaux = Ordinateur.objects.filter(type="Bureau")
-    return render(request, "bureau.html", {"bureaux": bureaux})
+    employes = Employe.objects.all()  # ✅ passe les employés au template
+    return render(request, "bureau.html", {"bureaux": bureaux, "employes": employes})
 
 
 
@@ -70,8 +71,11 @@ def portable(request):
             garantie = request.POST.get("garantie")
     
             employe = None
+            statut = "En stock"  # par défaut
+            
             if utilisateur_nom:
                 employe = Employe.objects.filter(nom=utilisateur_nom).first()
+                statut = "Actif" 
     
             Ordinateur.objects.create(
                 type=type_pc,
@@ -88,8 +92,8 @@ def portable(request):
             messages.success(request, "Ordinateur enregistré avec succès ✅")
             return redirect("portable")
      portables = Ordinateur.objects.filter(type="Portable")
-     return render(request, "portable.html", {"portables": portables})
-
+     employes = Employe.objects.all()  # ✅ passe les employés au template
+     return render(request, "portable.html", {"portables": portables, "employes": employes})
 
 
 
@@ -140,3 +144,87 @@ def supprimer_pc(request, pk):
     pc.delete()
     messages.success(request, "Ordinateur supprimé ✅")
     return redirect("bureau")
+
+
+
+def employes(request):
+    employes = Employe.objects.all()
+    return render(request, "employe.html", {"employes": employes})
+
+
+
+
+def employe(request):
+    if request.method == "POST":
+        nom = request.POST.get("nom")
+        prenom = request.POST.get("prenom")
+        email = request.POST.get("email")
+        poste = request.POST.get("poste")
+        statut = request.POST.get("statut")
+        ordinateur_numero = request.POST.get("ordinateur")  # numéro ou id de l'ordi
+        date_embauche = request.POST.get("date_embauche")
+
+        try:
+            # ✅ Création de l'employé
+            emp = Employe.objects.create(
+                nom=nom,
+                prenom=prenom,
+                email=email,
+                poste=poste,
+                statut=statut,
+                date_embauche=date_embauche
+            )
+
+            # ✅ Affectation d’un ordinateur si fourni
+            if ordinateur_numero:
+                pc = Ordinateur.objects.filter(numero=ordinateur_numero).first()
+                if pc:
+                    emp.ordinateurs.add(pc)
+
+            messages.success(request, "✅ Employé ajouté avec succès.")
+            return redirect("employes")
+        except Exception as e:
+            messages.error(request, f"❌ Erreur lors de l’ajout : {e}")
+
+        return redirect("employes")
+    return render(request, "employe.html")  # formulaire
+
+def modifier_employe(request, pk):
+    emp = get_object_or_404(Employe, pk=pk)
+
+    if request.method == "POST":
+        emp.nom = request.POST.get("nom")
+        emp.prenom = request.POST.get("prenom")
+        emp.email = request.POST.get("email")
+        emp.poste = request.POST.get("poste")
+        emp.statut = request.POST.get("statut")
+        ordinateur_numero = request.POST.get("ordinateur")
+        emp.date_embauche = request.POST.get("date_embauche")
+
+        try:
+            emp.save()
+
+            # ✅ Mise à jour des ordinateurs
+            if ordinateur_numero:
+                pc = Ordinateur.objects.filter(numero=ordinateur_numero).first()
+                if pc:
+                    emp.ordinateurs.set([pc])  # remplace la liste par ce PC
+
+            messages.success(request, "✅ Employé modifié avec succès.")
+            return redirect("employes")
+        except Exception as e:
+            messages.error(request, f"❌ Erreur lors de la modification : {e}")
+
+    return render(request, "modifier_employe.html", {"emp": emp})
+
+
+
+
+def supprimer_employe(request, pk):
+    emp = get_object_or_404(Employe, pk=pk)
+    emp.delete()
+    messages.success(request, "✅ Employé supprimé avec succès.")
+    return redirect("employes")
+
+
+

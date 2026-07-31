@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+
+{% block title %}Employés{% endblock %}
+
+{% block content %}
+<section class="cards">
+  <div class="card blue">Total Employés<br><span>{{ employes|length }}</span></div>
+</section>
+
+<h2>👨‍💼 Liste des Employés</h2>
+
+<!-- ✅ Bouton Créer -->
+<div class="actions">
+  <button class="btn-create" onclick="openModal()">➕ Ajouter un Employé</button>
+</div>
+
+<!-- ✅ Barre de recherche -->
+<input type="text" id="searchEmploye" placeholder="🔍 Rechercher..." class="search-input">
+
+<div class="table-wrapper">
+  <table id="employeTable">
+    <thead>
+      <tr class="small">
+        <th>Employe</th>
+        <th>Email</th>
+        <th>Poste</th>
+        <th>Statut</th>
+        <th>Ordinateur</th>
+        <th>Date d’embauche</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for emp in employes %}
+      <tr>
+        <td>{{ emp.prenom }} {{ emp.nom }}</td>
+        <td>{{ emp.email }}</td>
+        <td>{{ emp.poste }}</td>
+        <td>{{ emp.statut }}</td>
+        <td>
+          {% for pc in emp.ordinateurs.all %}
+            {{ pc.modele }} ({{ pc.numero }}){% if not forloop.last %}, {% endif %}
+          {% empty %}
+            Aucun
+          {% endfor %}
+        </td>
+        <td>{{ emp.date_embauche }}</td>
+        <td class="actions">
+           <!-- Détail -->
+            <a href="javascript:void(0)" 
+              class="btn-action" 
+              title="Détails"
+              onclick="openDetailEmploye('{{ emp.prenom }}','{{ emp.nom }}','{{ emp.email }}',
+              '{{ emp.poste }}','{{ emp.statut }}','{% for pc in emp.ordinateurs.all %}{{ pc.modele }} ({{ pc.numero }}){% if not forloop.last %}, {% endif %}{% endfor %}',
+              '{{ emp.date_embauche }}')">
+              <i class="bi bi-eye"></i>
+            </a>
+
+            <!-- Modifier -->
+            <a href="javascript:void(0)" 
+              class="btn-action" 
+              title="Modifier"
+              onclick="openEditEmploye('{{ emp.id }}','{{ emp.prenom }}','{{ emp.nom }}','{{ emp.email }}',
+              '{{ emp.poste }}','{{ emp.statut }}','{% for pc in emp.ordinateurs.all %}{{ pc.modele }} ({{ pc.numero }}){% if not forloop.last %}, {% endif %}{% endfor %}',
+              '{{ emp.date_embauche|date:'Y-m-d'}}')">
+              <i class="bi bi-pencil-square"></i>
+            </a>
+
+          <!-- Supprimer -->
+          <a href="javascript:void(0)" 
+             class="btn-action text-danger" 
+             title="Supprimer"
+             onclick="openDeleteModal('{% url 'supprimer_employe' emp.id %}')">
+             <i class="bi bi-trash"></i>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- ✅ Modal Créer Employé -->
+<div id="createModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3>➕ Ajouter un Employé</h3>
+    <form method="post" action="{% url 'employe' %}">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="prenom">Prénom</label>
+        <div class="input-icon">
+          <i class="bi bi-person"></i>
+          <input type="text" id="prenom" name="prenom" placeholder="Ex: Didier" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <div class="input-icon">
+          <i class="bi bi-person-badge"></i>
+          <input type="text" id="nom" name="nom" placeholder="Ex: Zahibo" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-icon">
+          <i class="bi bi-envelope"></i>
+          <input type="email" id="email" name="email" placeholder="Ex: dzformation23@gmail.com" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="poste">Poste</label>
+        <div class="input-icon">
+          <i class="bi bi-briefcase"></i>
+          <input type="text" id="poste" name="poste" placeholder="Ex: Développeur Python" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="statut">Statut</label>
+        <div class="input-icon">
+          <i class="bi bi-check-circle"></i>
+          <select id="statut" name="statut">
+            <option value="Actif">Actif</option>
+            <option value="En congé">En congé</option>
+            <option value="Inactif">Inactif</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="date_embauche">Date d’embauche</label>
+        <div class="input-icon">
+          <i class="bi bi-calendar-date"></i>
+          <input type="date" id="date_embauche" name="date_embauche">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">✅ Enregistrer</button>
+    </form>
+  </div>
+</div>
+
+
+<div id="detailEmployeModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeDetailEmploye()">&times;</span>
+    <h3>👁️ Détails Employé</h3>
+    <form>
+      <div class="form-group">
+        <label>Prénom</label>
+        <div class="input-icon">
+          <i class="bi bi-person"></i>
+          <input type="text" id="detail-prenom" readonly>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Nom</label>
+        <div class="input-icon">
+          <i class="bi bi-person-badge"></i>
+          <input type="text" id="detail-nom" readonly>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <div class="input-icon">
+          <i class="bi bi-envelope"></i>
+          <input type="text" id="detail-email" readonly>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Poste</label>
+        <div class="input-icon">
+          <i class="bi bi-briefcase"></i>
+          <input type="text" id="detail-poste" readonly>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Statut</label>
+        <div class="input-icon">
+          <i class="bi bi-check-circle"></i>
+          <input type="text" id="detail-statut" readonly>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Ordinateurs</label>
+        <div class="input-icon">
+          <i class="bi bi-pc-display"></i>
+          <input type="text" id="detail-ordinateurs" readonly>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Date d’embauche</label>
+        <div class="input-icon">
+          <i class="bi bi-calendar-date"></i>
+          <input type="text" id="detail-date" readonly>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% for pc in employes %}
+<div id="editEmployeModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeEditEmploye()">&times;</span>
+    <h3>✏️ Modifier Employé</h3>
+    <form id="editEmployeForm" method="post" action="">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label>Prénom</label>
+        <div class="input-icon">
+          <i class="bi bi-person"></i>
+          <input type="text" id="edit-prenom" name="prenom" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Nom</label>
+        <div class="input-icon">
+          <i class="bi bi-person-badge"></i>
+          <input type="text" id="edit-nom" name="nom" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <div class="input-icon">
+          <i class="bi bi-envelope"></i>
+          <input type="email" id="edit-email" name="email" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Poste</label>
+        <div class="input-icon">
+          <i class="bi bi-briefcase"></i>
+          <input type="text" id="edit-poste" name="poste" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Statut</label>
+        <div class="input-icon">
+          <i class="bi bi-check-circle"></i>
+          <select id="edit-statut" name="statut">
+            <option value="Actif">Actif</option>
+            <option value="En congé">En congé</option>
+            <option value="Inactif">Inactif</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Ordinateurs</label>
+        <div class="input-icon">
+          <i class="bi bi-pc-display"></i>
+          <input type="text" id="edit-ordinateurs" name="ordinateurs">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Date d’embauche</label>
+        <div class="input-icon">
+          <i class="bi bi-calendar-date"></i>
+          <input type="date" id="edit-date" name="date_embauche">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">💾 Mettre à jour</button>
+    </form>
+  </div>
+</div>
+{% endfor %}
+<!-- ✅ Modal Supprimer Employé -->
+<div id="confirmDeleteModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeDeleteModal()">&times;</span>
+    <h3>⚠️ Confirmation de suppression</h3>
+    <p>Es-tu sûr de vouloir supprimer cet employé ?</p>
+
+    <div class="form-group">
+      <div class="input-icon">
+        <i class="bi bi-person-x"></i>
+        <input type="text" id="delete-nom" readonly>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn-secondary" onclick="closeDeleteModal()">❌ Annuler</button>
+      <form id="deleteForm" method="post" action="">
+        {% csrf_token %}
+        <button type="submit" class="btn-danger">🗑️ Supprimer</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+

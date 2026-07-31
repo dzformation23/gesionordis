@@ -49,7 +49,7 @@ function showToast(message, type="success") {
         <ul>
           <li><a href="{% url 'dashboard' %}"><i class="bi bi-speedometer2"></i> Tableau de bord</a></li>
           <li><a href="{% url 'ordinateurs' %}"><i class="bi bi-pc-display"></i> Ordinateurs</a></li>
-          <li><a href="#"><i class="bi bi-people"></i> Membres</a></li>
+          <li><a href="{% url 'employes' %}"><i class="bi bi-people"></i> Membres</a></li>
           <li><a href="#"><i class="bi bi-bar-chart"></i> Rapports</a></li>
           <li><a href="#"><i class="bi bi-gear"></i> Paramètres</a></li>
         </ul>
@@ -108,9 +108,6 @@ function closeModal() {
 }
 
 
-
-
-
 function openDetailModal(type, modele, designation, numero, utilisateur, statut, date, garantie, duree) {
   // Remplir les champs du formulaire avec les valeurs passées
   document.getElementById("detail-type").value = type;
@@ -155,8 +152,6 @@ function closeEditModal() {
 }
 
 
-
-
 function openDeleteModal(url) {
   // Injecte l’URL dans l’action du formulaire
   document.getElementById("deleteForm").action = url;
@@ -168,6 +163,38 @@ function openDeleteModal(url) {
 function closeDeleteModal() {
   // Cache le modal
   document.getElementById("confirmDeleteModal").style.display = "none";
+}
+
+
+function openDetailEmploye(prenom, nom, email, poste, statut, ordinateurs, date_embauche) {
+  document.getElementById("detail-prenom").value = prenom;
+  document.getElementById("detail-nom").value = nom;
+  document.getElementById("detail-email").value = email;
+  document.getElementById("detail-poste").value = poste;
+  document.getElementById("detail-statut").value = statut;
+  document.getElementById("detail-ordinateurs").value = ordinateurs;
+  document.getElementById("detail-date").value = date_embauche;
+  document.getElementById("detailEmployeModal").style.display = "flex";
+}
+function closeDetailEmploye() {
+  document.getElementById("detailEmployeModal").style.display = "none";
+}
+
+function openEditEmploye(id, prenom, nom, email, poste, statut, ordinateurs, date_embauche) {
+  document.getElementById("edit-prenom").value = prenom;
+  document.getElementById("edit-nom").value = nom;
+  document.getElementById("edit-email").value = email;
+  document.getElementById("edit-poste").value = poste;
+  document.getElementById("edit-statut").value = statut;
+  document.getElementById("edit-ordinateurs").value = ordinateurs;
+  document.getElementById("edit-date").value = date_embauche;
+
+  // ✅ Mettre l’action du formulaire dynamiquement
+  document.getElementById("editEmployeForm").action = "/employe/modifier/" + id + "/";
+  document.getElementById("editEmployeModal").style.display = "flex";
+}
+function closeEditEmploye() {
+  document.getElementById("editEmployeModal").style.display = "none";
 }
 
 

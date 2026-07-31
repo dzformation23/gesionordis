@@ -759,3 +759,156 @@ td.actions a.text-danger:hover {
   from { transform: scale(0.95); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+
+
+
+
+
+
+/*********************✅ Modal Détails********************************************************* */
+#DetailEmploye .modal-content {
+  background: #ffffff;
+  color: #333;
+  padding: 25px;              /* réduit le padding */
+  border-radius: 12px;
+  width: 700px;               /* un peu plus large */
+  max-width: 90%;
+  max-height: 80vh;           /* limite la hauteur à 80% de l’écran */
+  overflow-y: auto;           /* ajoute un scroll si trop de contenu */
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  animation: fadeIn 0.3s ease;
+}
+
+/* ✅ Champs du formulaire plus compacts */
+#DetailEmploye .form-group {
+  margin-bottom: 10px;        /* réduit l’espacement vertical */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#DetailEmploye .form-group label {
+  font-weight: bold;
+  color: #0d6efd;
+  flex: 1;
+  margin-right: 10px;
+}
+
+#DetailEmploye .form-group input {
+  flex: 2;
+  padding: 6px 10px;          /* réduit la hauteur des inputs */
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #f8f9fa;
+  font-size: 14px;
+  color: #333;
+}
+
+/* ✅ Champs readonly en gris clair */
+#DetailEmploye .form-group input[readonly] {
+  background: #e9ecef;
+  color: #555;
+  font-weight: bold;
+}
+
+/* ✅ Bouton fermer */
+#DetailEmploye .close {
+  float: right;
+  font-size: 1.4em;
+  font-weight: bold;
+  cursor: pointer;
+  color: #dc3545;
+}
+#DetailEmploye .close:hover {
+  color: #a71d2a;
+}
+
+
+
+/*********************✅ Modal Modifier employés********************************************************* */
+#EditEmploye .modal-content {
+  background: #fdfdfd;          /* fond blanc élégant */
+  color: #333;                  /* texte sombre lisible */
+  padding: 30px;
+  border-radius: 12px;
+  width: 700px;                 /* plus large que le modal créer */
+  max-width: 90%;
+  max-height: 85vh;             /* limite la hauteur */
+  overflow-y: auto;             /* scroll si trop de contenu */
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  animation: fadeIn 0.3s ease;
+}
+
+/* ✅ Titre du modal */
+#EditEmploye h3 {
+  color: #0d6efd;               /* bleu élégant */
+  margin-bottom: 25px;
+  text-align: center;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ✅ Champs du formulaire */
+#EditEmploye .form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+#EditEmploye .form-group label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: #0d6efd;
+}
+
+#EditEmploye .form-group input,
+#EditEmploye .form-group select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f8f9fa;
+  font-size: 15px;
+  color: #333;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+#EditEmploye .form-group input:focus,
+#EditEmploye .form-group select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 6px rgba(13,110,253,0.3);
+  outline: none;
+}
+
+/* ✅ Bouton Mettre à jour */
+#EditEmploye .btn-submit {
+  width: 100%;
+  background: #0d6efd;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#EditEmploye .btn-submit:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* ✅ Bouton fermer */
+#EditEmploye .close {
+  float: right;
+  font-size: 1.6em;
+  font-weight: bold;
+  cursor: pointer;
+  color: #dc3545;
+}
+
+#EditEmploye .close:hover {
+  color: #a71d2a;
+}
