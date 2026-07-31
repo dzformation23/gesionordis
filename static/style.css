@@ -499,7 +499,6 @@ td.actions a.text-danger:hover {
 }
 
 .toast {
-  background-color: #28a745; /* vert succès */
   color: white;
   padding: 12px 20px;
   margin-bottom: 10px;
@@ -511,7 +510,252 @@ td.actions a.text-danger:hover {
   transition: all 0.5s ease;
 }
 
+/* ✅ Animation quand le toast apparaît */
 .toast.show {
   opacity: 1;
   transform: translateX(0);
+}
+
+/* ✅ Différents types de toast */
+.toast.success { background-color: #28a745; }   /* vert succès */
+.toast.error   { background-color: #dc3545; }   /* rouge erreur */
+.toast.info    { background-color: #0d6efd; }   /* bleu info */
+.toast.warning { background-color: #ffc107; color: #212529; } /* jaune avertissement */
+
+
+
+
+/*********************✅ Modal Détails********************************************************* */
+#detailModal .modal-content {
+  background: #ffffff;
+  color: #333;
+  padding: 25px;              /* réduit le padding */
+  border-radius: 12px;
+  width: 700px;               /* un peu plus large */
+  max-width: 90%;
+  max-height: 80vh;           /* limite la hauteur à 80% de l’écran */
+  overflow-y: auto;           /* ajoute un scroll si trop de contenu */
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  animation: fadeIn 0.3s ease;
+}
+
+/* ✅ Champs du formulaire plus compacts */
+#detailModal .form-group {
+  margin-bottom: 10px;        /* réduit l’espacement vertical */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#detailModal .form-group label {
+  font-weight: bold;
+  color: #0d6efd;
+  flex: 1;
+  margin-right: 10px;
+}
+
+#detailModal .form-group input {
+  flex: 2;
+  padding: 6px 10px;          /* réduit la hauteur des inputs */
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #f8f9fa;
+  font-size: 14px;
+  color: #333;
+}
+
+/* ✅ Champs readonly en gris clair */
+#detailModal .form-group input[readonly] {
+  background: #e9ecef;
+  color: #555;
+  font-weight: bold;
+}
+
+/* ✅ Bouton fermer */
+#detailModal .close {
+  float: right;
+  font-size: 1.4em;
+  font-weight: bold;
+  cursor: pointer;
+  color: #dc3545;
+}
+#detailModal .close:hover {
+  color: #a71d2a;
+}
+
+
+
+/*********************✅ Modal Modifier********************************************************* */
+#editModal .modal-content {
+  background: #fdfdfd;          /* fond blanc élégant */
+  color: #333;                  /* texte sombre lisible */
+  padding: 30px;
+  border-radius: 12px;
+  width: 700px;                 /* plus large que le modal créer */
+  max-width: 90%;
+  max-height: 85vh;             /* limite la hauteur */
+  overflow-y: auto;             /* scroll si trop de contenu */
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  animation: fadeIn 0.3s ease;
+}
+
+/* ✅ Titre du modal */
+#editModal h3 {
+  color: #0d6efd;               /* bleu élégant */
+  margin-bottom: 25px;
+  text-align: center;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ✅ Champs du formulaire */
+#editModal .form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+#editModal .form-group label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: #0d6efd;
+}
+
+#editModal .form-group input,
+#editModal .form-group select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f8f9fa;
+  font-size: 15px;
+  color: #333;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+#editModal .form-group input:focus,
+#editModal .form-group select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 6px rgba(13,110,253,0.3);
+  outline: none;
+}
+
+/* ✅ Bouton Mettre à jour */
+#editModal .btn-submit {
+  width: 100%;
+  background: #0d6efd;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#editModal .btn-submit:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* ✅ Bouton fermer */
+#editModal .close {
+  float: right;
+  font-size: 1.6em;
+  font-weight: bold;
+  cursor: pointer;
+  color: #dc3545;
+}
+
+#editModal .close:hover {
+  color: #a71d2a;
+}
+
+
+/*********************✅ Modal suprimer********************************************************* */
+
+/* Fond semi-transparent */
+#confirmDeleteModal {
+  display: none; /* caché par défaut */
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5); /* fond sombre */
+
+  justify-content: center;
+  align-items: center;
+}
+
+/* Contenu du modal */
+#confirmDeleteModal .modal-content {
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  width: 380px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Titre rouge clair */
+#confirmDeleteModal h3 {
+  margin-top: 0;
+  color: #dc3545; /* rouge avertissement */
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Texte */
+#confirmDeleteModal p {
+  margin: 15px 0;
+  font-size: 15px;
+  color: #333;
+}
+
+/* Boutons */
+#confirmDeleteModal .actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#confirmDeleteModal .btn-secondary,
+#confirmDeleteModal .btn-danger {
+  flex: 1;
+  margin: 0 5px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+/* Bouton Annuler */
+#confirmDeleteModal .btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+#confirmDeleteModal .btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* Bouton Supprimer */
+#confirmDeleteModal .btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+#confirmDeleteModal .btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }

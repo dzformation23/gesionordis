@@ -104,6 +104,70 @@ function openModal() {
 }
 function closeModal() {
   document.getElementById("createModal").style.display = "none";
+
+}
+
+
+
+
+
+function openDetailModal(type, modele, designation, numero, utilisateur, statut, date, garantie, duree) {
+  // Remplir les champs du formulaire avec les valeurs passées
+  document.getElementById("detail-type").value = type;
+  document.getElementById("detail-modele").value = modele;
+  document.getElementById("detail-designation").value = designation;
+  document.getElementById("detail-numero").value = numero;
+  document.getElementById("detail-utilisateur").value = utilisateur;
+  document.getElementById("detail-statut").value = statut;
+  document.getElementById("detail-date").value = date;
+  document.getElementById("detail-garantie").value = garantie;
+  document.getElementById("detail-duree").value = duree;
+
+  // Afficher le modal
+  document.getElementById("detailModal").style.display = "flex";
+}
+
+function closeDetailModal() {
+  document.getElementById("detailModal").style.display = "none";
+}
+
+
+
+
+function openEditModal(id, type, modele, designation, numero, utilisateur, statut, date, garantie, duree) {
+  document.getElementById("edit-type").value = type;
+  document.getElementById("edit-modele").value = modele;
+  document.getElementById("edit-designation").value = designation;
+  document.getElementById("edit-numero").value = numero;
+  document.getElementById("edit-utilisateur").value = utilisateur;
+  document.getElementById("edit-statut").value = statut;
+  document.getElementById("edit-date").value = date;
+  document.getElementById("edit-garantie").value = garantie;
+  document.getElementById("edit-duree").value = duree;
+
+  document.querySelector("#editModal form").action = "/ordinateur/" + id + "/modifier/";
+
+  document.getElementById("editModal").style.display = "flex";
+}
+
+function closeEditModal() {
+  document.getElementById("editModal").style.display = "none";
+}
+
+
+
+
+function openDeleteModal(url) {
+  // Injecte l’URL dans l’action du formulaire
+  document.getElementById("deleteForm").action = url;
+
+  // Affiche le modal
+  document.getElementById("confirmDeleteModal").style.display = "flex";
+}
+
+function closeDeleteModal() {
+  // Cache le modal
+  document.getElementById("confirmDeleteModal").style.display = "none";
 }
 
 

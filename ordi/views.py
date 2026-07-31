@@ -59,8 +59,36 @@ def bureau(request):
 
 # Vue Portable uniquement
 def portable(request):
-    portables = Ordinateur.objects.filter(type="Portable")
-    return render(request, "portable.html", {"portables": portables})
+     if request.method == "POST":
+            type_pc = request.POST.get("type")
+            modele = request.POST.get("modele")
+            designation = request.POST.get("designation")
+            numero = request.POST.get("numero")
+            utilisateur_nom = request.POST.get("utilisateur")
+            statut = request.POST.get("statut")
+            date_achat = request.POST.get("date_achat")
+            garantie = request.POST.get("garantie")
+    
+            employe = None
+            if utilisateur_nom:
+                employe = Employe.objects.filter(nom=utilisateur_nom).first()
+    
+            Ordinateur.objects.create(
+                type=type_pc,
+                modele=modele,
+                designation=designation,
+                numero=numero,
+                utilisateur=employe,
+                statut=statut,
+                date_achat=date_achat,
+                garantie=garantie,
+            )
+    
+            # ✅ Message de succès
+            messages.success(request, "Ordinateur enregistré avec succès ✅")
+            return redirect("portable")
+     portables = Ordinateur.objects.filter(type="Portable")
+     return render(request, "portable.html", {"portables": portables})
 
 
 
@@ -74,21 +102,41 @@ def detail_pc(request, pk):
 
 def modifier_pc(request, pk):
     pc = get_object_or_404(Ordinateur, pk=pk)
+
     if request.method == "POST":
+        pc.type = request.POST.get("type")
         pc.modele = request.POST.get("modele")
         pc.designation = request.POST.get("designation")
-        pc.numero = request.POST.get("numero")
+        nouveau_numero = request.POST.get("numero")
+        utilisateur_nom = request.POST.get("utilisateur")
+
+        # ✅ Vérifier si le numéro existe déjà pour un autre PC
+        if Ordinateur.objects.filter(numero=nouveau_numero).exclude(pk=pk).exists():
+            messages.error(request, "❌ Ce numéro de série existe déjà pour un autre ordinateur.")
+            return redirect("modifier_pc", pk=pk)
+
+        pc.numero = nouveau_numero
+
+        if utilisateur_nom:
+            employe = Employe.objects.filter(nom=utilisateur_nom).first()
+            pc.utilisateur = employe
+
         pc.statut = request.POST.get("statut")
         pc.date_achat = request.POST.get("date_achat")
         pc.garantie = request.POST.get("garantie")
-        pc.save()
-        return redirect("bureau")
-    return render(request, "modifier_pc.html", {"pc": pc})
 
+        try:
+            pc.save()
+            messages.success(request, "✅ Ordinateur modifié avec succès.")
+            return redirect("bureau")
+        except Exception as e:
+            messages.error(request, f"❌ Erreur lors de la modification : {e}")
+
+    return render(request, "modifier_pc.html", {"pc": pc})
 
 
 def supprimer_pc(request, pk):
     pc = get_object_or_404(Ordinateur, pk=pk)
     pc.delete()
-    messages.error(request, "Ordinateur supprimé ❌")
+    messages.success(request, "Ordinateur supprimé ✅")
     return redirect("bureau")

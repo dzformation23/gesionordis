@@ -59,21 +59,37 @@
        
         <td class="actions">
           <!-- Détail -->
-          <a href="{% url 'detail_pc' pc.id %}" class="btn-action" title="Détails">
+          <a href="javascript:void(0)" 
+            class="btn-action" 
+            title="Détails"
+            onclick="openDetailModal('{{ pc.type }}','{{ pc.modele }}','{{ pc.designation }}',
+            '{{ pc.numero }}','{{ pc.utilisateur }}','{{ pc.statut }}','{{ pc.date_achat }}',
+            '{{ pc.garantie }}','{{ pc.duree_vie }}')">
             <i class="bi bi-eye"></i>
           </a>
 
           <!-- Modifier -->
-          <a href="{% url 'modifier_pc' pc.id %}" class="btn-action " title="Modifier">
+          <a href="javascript:void(0)" 
+            class="btn-action" 
+            title="Modifier"
+            onclick="openEditModal('{{ pc.id }}','{{ pc.type }}','{{ pc.modele }}',
+            '{{ pc.designation }}','{{ pc.numero }}','{{ pc.utilisateur }}',
+            '{{ pc.statut }}','{{ pc.date_achat|date:'Y-m-d'}}','{{ pc.garantie }}',
+            '{{ pc.duree_vie }}')">
             <i class="bi bi-pencil-square"></i>
           </a>
 
+
+
           <!-- Supprimer -->
-          <a href="{% url 'supprimer_pc' pc.id %}" class="btn-action text-danger" title="Supprimer">
+         <a href="javascript:void(0)" 
+            class="btn-action text-danger" 
+            title="Supprimer"
+            onclick="openDeleteModal('{% url 'supprimer_pc' pc.id %}')">
             <i class="bi bi-trash"></i>
           </a>
-        </td>
 
+        </td>
        
       </tr>
       {% endfor %}
@@ -169,6 +185,149 @@
 
 
 
+<!-- ✅ Fenêtre modale Détails -->
+<div id="detailModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeDetailModal()">&times;</span>
+    <h3>👁️ Détails de l’Ordinateur</h3>
+    <form>
+      <div class="form-group">
+        <label for="detail-type">Type</label>
+        <input type="text" id="detail-type" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="detail-modele">Modèle</label>
+        <input type="text" id="detail-modele" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="detail-designation">Désignation</label>
+        <input type="text" id="detail-designation" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="detail-numero">N° Série</label>
+        <input type="text" id="detail-numero" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="detail-utilisateur">Utilisateur</label>
+        <input type="text" id="detail-utilisateur" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="detail-statut">Statut</label>
+        <input type="text" id="detail-statut" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="detail-date">Date d’Achat</label>
+        <input type="text" id="detail-date" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="detail-garantie">Garantie</label>
+        <input type="text" id="detail-garantie" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="detail-duree">Durée de Vie</label>
+        <input type="text" id="detail-duree" readonly>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+{% for pc in bureaux %}
+
+<!-- ✅ Fenêtre modale Modifier -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeEditModal()">&times;</span>
+    <h3>✏️ Modifier l’Ordinateur</h3>
+    <form method="post" action="{% url 'modifier_pc' pk=pc.id %}">
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label for="edit-type">Type</label>
+        <input type="text" id="edit-type" name="type" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="edit-modele">Modèle</label>
+        <input type="text" id="edit-modele" name="modele" required>
+      </div>
+
+      <div class="form-group">
+        <label for="edit-designation">Désignation</label>
+        <input type="text" id="edit-designation" name="designation" required>
+      </div>
+
+      <div class="form-group">
+        <label for="edit-numero">N° Série</label>
+        <input type="text" id="edit-numero" name="numero" required>
+      </div>
+
+      <div class="form-group">
+        <label for="edit-utilisateur">Utilisateur</label>
+        <input type="text" id="edit-utilisateur" name="utilisateur">
+      </div>
+
+      <div class="form-group">
+        <label for="edit-statut">Statut</label>
+        <select id="edit-statut" name="statut">
+          <option value="Actif">Actif</option>
+          <option value="En panne">En panne</option>
+          <option value="En maintenance">En maintenance</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="edit-date">Date d’Achat</label>
+        <input type="date" id="edit-date" name="date_achat" value="{{ pc.date_achat|date:'Y-m-d' }}">
+      </div>
+
+
+      <div class="form-group">
+        <label for="edit-garantie">Garantie</label>
+        <input type="text" id="edit-garantie" name="garantie">
+      </div>
+
+      <div class="form-group">
+        <label for="edit-duree">Durée de Vie</label>
+        <input type="text" id="edit-duree" name="duree_vie">
+      </div>
+
+      <button type="submit" class="btn-submit">💾 Mettre à jour</button>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+{% endfor %}
+
+
+<!-- Modal de confirmation -->
+<div id="confirmDeleteModal" class="modal">
+  <div class="modal-content">
+    <h3>⚠️ Confirmation</h3>
+    <p>Es-tu sûr de vouloir supprimer cet ordinateur ?</p>
+    <div class="actions">
+      <button type="button" class="btn-secondary" onclick="closeDeleteModal()">Annuler</button>
+      
+      <!-- ✅ Bouton Supprimer -->
+      <form id="deleteForm" method="post" action="">
+        {% csrf_token %}
+        <button type="submit" class="btn-danger">Supprimer</button>
+      </form>
+    </div>
+  </div>
+</div>
 
 
 
