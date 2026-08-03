@@ -3,23 +3,27 @@
 {% block title %}Ordinateurs{% endblock %}
 
 {% block content %}
-<section class="cards">
-  <div class="card blue">Total Bureaux<br><span>{{ bureaux|length }}</span></div>
-  <div class="card green">Total Portables<br><span>{{ portables|length }}</span></div>
-</section>
-
-<h2>💻 Ordinateurs Portables</h2>
-
-<section class="cards-row">
-  <!-- ✅ Cartes alignées à gauche -->
-  <div class="cards">
+<section class="cards-row small">
+    <!-- ✅ Cartes alignées à gauche -->
+  <div class="cards small">
     <div class="card blue bi bi-pc-display">
       <a href="{% url 'bureau' %}">Bureaux</a>
     </div>
     <div class="card green bi bi-laptop">
       <a href="{% url 'portable' %}">Portables</a>
     </div>
-  </div>
+  </div> 
+</section>
+
+<section class="cards">
+  <div class="card blue">Total Bureaux<br><span>{{ bureaux|length }}</span></div>
+  <div class="card green">Total Portables<br><span>{{ portables|length }}</span></div>
+</section>
+
+<h2 style="text-align: center">💻 🖥️ Ordinateurs</h2>
+
+<section class="cards-row">
+ 
 
   <!-- ✅ Barre de recherche alignée à droite -->
   <input type="text" id="searchPortable" placeholder="🔍 Rechercher..." class="search-input">
@@ -40,7 +44,17 @@
       <td>{{ pc.modele }}</td>
       <td>{{ pc.numero }}</td>
       <td>{{ pc.utilisateur }}</td>
-      <td>{{ pc.statut }}</td>
+      <td>
+            {% if pc.statut == "Actif" %}
+              <span class="badge bg-success">Actif</span>
+            {% elif pc.statut == "Disponible" %}
+              <span class="badge bg-info">Disponible</span>
+            {% elif pc.statut == "En maintenance" %}
+              <span class="badge bg-danger">En maintenance</span>
+            {% else %}
+              <span class="badge bg-secondary">{{ pc.statut }}</span>
+            {% endif %}
+      </td>
       <td>{{ pc.date_achat }}</td>
       <td>{{ pc.garantie }}</td>
       <td>{{ pc.duree_vie }}</td>

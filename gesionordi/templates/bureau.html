@@ -3,31 +3,30 @@
 {% block title %}Ordinateurs{% endblock %}
 
 {% block content %}
-<section class="cards">
-  <div class="card blue">Total Bureaux<br><span>{{ bureaux|length }}</span></div>
-  <div class="card green">Total Portables<br><span>{{ portables|length }}</span></div>
-</section>
-
-<h2>🖥️ Ordinateurs Bureau</h2>
-
-<section class="cards-row">
-  <!-- ✅ Cartes alignées à gauche -->
-  <div class="cards">
+<section class="cards-row small">
+    <!-- ✅ Cartes alignées à gauche -->
+  <div class="cards small">
     <div class="card blue bi bi-pc-display">
       <a href="{% url 'bureau' %}">Bureaux</a>
     </div>
     <div class="card green bi bi-laptop">
       <a href="{% url 'portable' %}">Portables</a>
     </div>
-  </div>
+  </div> 
+</section>
 
-  
+
+<h2 style="text-align: center;">🖥️ Ordinateurs Bureau</h2>
+
+<section class="cards-row">
+  <div class="card blue">Total Bureaux<br><span>{{ bureaux|length }}</span></div>
 <!-- ✅ Bouton Créer -->
 <div class="actions">
   <button class="btn-create" onclick="openModal()">➕ Créer</button>
 </div>
- 
 </section>
+
+
 
  <!-- ✅ Barre de recherche alignée à droite -->
   <input type="text" id="searchPortable" placeholder="🔍 Rechercher..." class="search-input">
@@ -52,7 +51,17 @@
         <td>{{ pc.modele }}</td>
         <td>{{ pc.numero }}</td>
         <td>{{ pc.utilisateur }}</td>
-        <td>{{ pc.statut }}</td>
+        <td>
+            {% if pc.statut == "Actif" %}
+              <span class="badge bg-success">Actif</span>
+            {% elif pc.statut == "Disponible" %}
+              <span class="badge bg-info">Disponible</span>
+            {% elif pc.statut == "En maintenance" %}
+              <span class="badge bg-danger">En maintenance</span>
+            {% else %}
+              <span class="badge bg-secondary">{{ pc.statut }}</span>
+            {% endif %}
+          </td>
         <td>{{ pc.date_achat }}</td>
         <td>{{ pc.garantie }}</td>
         <td>{{ pc.duree_vie }}</td>
@@ -101,14 +110,14 @@
 
 
 <!-- ✅ Fenêtre modale -->
-<div id="createModal" class="modal">
+<div id="createModal" class="modal small">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
-    <h3>➕ Ajouter un Ordinateur</h3>
+    <h3 class="small">➕ Ajouter un Ordinateur</h3>
     <form method="post" action="#">
       {% csrf_token %}
       
-      <div class="form-group">
+      <div class="form-group Small">
         <label for="type">Type</label>
         <div class="input-icon">
           <i class="bi bi-pc-display"></i>
@@ -117,7 +126,7 @@
       </div>
 
 
-      <div class="form-group">
+      <div class="form-group Small">
         <label for="modele">Modèle</label>
         <div class="input-icon">
           <i class="bi bi-pc-display"></i>
@@ -125,7 +134,7 @@
         </div>
       </div>
 
-       <div class="form-group">
+       <div class="form-group Small">
           <label for="designation">Designation</label>
           <div class="input-icon">
             <i class="bi bi-pc-display"></i>
@@ -134,7 +143,7 @@
       </div>
 
 
-      <div class="form-group">
+      <div class="form-group Small">
         <label for="numero">N° Série</label>
         <div class="input-icon">
           <i class="bi bi-upc-scan"></i>
@@ -142,7 +151,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group Small">
         <label for="utilisateur">Utilisateur</label>
         <div class="input-icon">
           <i class="bi bi-person"></i>
@@ -157,19 +166,19 @@
 
 
 
-      <div class="form-group">
+      <div class="form-group Small">
         <label for="statut">Statut</label>
         <div class="input-icon">
           <i class="bi bi-check-circle"></i>
           <select id="statut" name="statut">
             <option value="Actif">Actif</option>
-            <option value="En panne">En panne</option>
+            <option value="Disponible">Disponible</option>
             <option value="En maintenance">En maintenance</option>
           </select>
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group Small">
         <label for="date_achat">Date d’Achat</label>
         <div class="input-icon">
           <i class="bi bi-calendar-date"></i>
@@ -177,7 +186,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group Small">
         <label for="garantie">Garantie</label>
         <div class="input-icon">
           <i class="bi bi-shield-check"></i>
@@ -286,7 +295,7 @@
         <label for="edit-statut">Statut</label>
         <select id="edit-statut" name="statut">
           <option value="Actif">Actif</option>
-          <option value="En panne">En panne</option>
+          <option value="Disponible">Disponible</option>
           <option value="En maintenance">En maintenance</option>
         </select>
       </div>

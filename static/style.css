@@ -19,7 +19,7 @@ body {
 .sidebar {
   width: 220px;                /* Largeur fixe */
   background: #23374a;         /* Fond bleu foncé */
-  color: white;
+  color: rgb(255, 255, 255);
   height: 100vh;               /* Pleine hauteur */
   padding: 20px;
   box-shadow: 2px 0 10px rgba(0,0,0,0.4); /* Ombre latérale */
@@ -40,11 +40,11 @@ body {
 }
 
 .sidebar ul li {
-  margin: 15px 0;              /* Espacement entre les liens */
+  margin: 5px 0;              /* Espacement entre les liens */
 }
 
 .sidebar ul li a {
-  color: #ddd;                 /* Liens gris clair */
+  color: #f9af02;                 /* Liens gris clair */
   text-decoration: none;       /* Supprime soulignement */
   display: flex;               /* Icône + texte alignés */
   align-items: center;
@@ -56,8 +56,8 @@ body {
 
 .sidebar ul li a:hover {
   background: #00bfff;         /* Fond bleu clair au survol */
-  color: #fff;                 /* Texte blanc */
-  transform: translateX(5px);  /* Effet décalage vers la droite */
+  color: #ffffff;                 /* Texte blanc */
+  transform: translateX(10px);  /* Effet décalage vers la droite */
 }
 
 /* 📄 Contenu principal */
@@ -110,9 +110,9 @@ footer {
   border-radius: 12px;
   padding: 20px;
   text-align: center;
-  width: 22%;                  /* Largeur des cartes */
-  margin-bottom: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.4); /* Ombre */
+  width: 20%;                  /* Largeur des cartes */
+  margin-bottom: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4); /* Ombre */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -123,7 +123,7 @@ footer {
 
 .card span {
   display: block;
-  font-size: 2em;
+  font-size: 1em;
   margin-top: 10px;
   font-weight: bold;
 }
@@ -248,7 +248,7 @@ tbody td:first-child {
 /* ✅ Cartes regroupées */
 .cards {
   display: flex;
-  gap: 15px; /* espace entre les deux cartes */
+  gap: 10px; /* espace entre les deux cartes */
 }
 
 /* ✅ Barre de recherche */
@@ -267,15 +267,16 @@ tbody td:first-child {
   color: #aaa;
 }
 
-/* ✅ LES BOUTON PORTABLE ET BUREAUX */
+/* ✅ Boutons / Cartes Portables et Bureaux */
 .cards-row .card {
-  width: 180px;          /* largeur fixe */
-  min-width: 150px;
+  width: 120px;          /* largeur réduite */
+  min-width: 100px;      /* largeur minimale */
   text-align: center;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  border-radius: 8px;
+  padding: 1px;          /* réduit la hauteur */
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
   transition: transform 0.3s ease, background 0.3s ease;
+  font-size: 14px;       /* texte très petit */
 }
 
 /* ✅ Effet hover avec changement de couleur */
@@ -309,7 +310,7 @@ tbody td:first-child {
 
 .cards-row .card a {
   color: #ffffff;          /* texte blanc pour contraste fort */
-  font-size: 16px;        /* légèrement plus grand */
+  font-size: 12px;        /* légèrement plus grand */
   font-weight: bold;       /* texte en gras */
   text-decoration: none;   /* pas de soulignement */
  
@@ -1003,4 +1004,11 @@ td.actions a.text-danger:hover {
 
 #editEmployeModal .close:hover {
   color: #a71d2a;
+}
+
+/* ✅ les couleurs dans stautre */
+.badge {
+  font-size: 0.7em;
+  padding: 4px 8px;
+  border-radius: 8px;
 }

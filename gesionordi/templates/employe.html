@@ -36,7 +36,19 @@
           <td>{{ emp.prenom }} {{ emp.nom }}</td>
           <td>{{ emp.email }}</td>
           <td>{{ emp.poste }}</td>
-          <td>{{ emp.statut }}</td>
+          <td>
+            {% if emp.statut == "Actif" %}
+              <span class="badge bg-success">Actif</span>
+            {% elif emp.statut == "En congé" %}
+              <span class="badge bg-primary">En congé</span>
+            {% elif emp.statut == "Inactif" %}
+              <span class="badge bg-danger">Inactif</span>
+            {% else %}
+              <span class="badge bg-secondary">{{ emp.statut }}</span>
+            {% endif %}
+          </td>
+
+
           <td>
             {% for pc in emp.ordinateur_set.all %}
               {{ pc.modele }} ({{ pc.numero }}){% if not forloop.last %}, {% endif %}

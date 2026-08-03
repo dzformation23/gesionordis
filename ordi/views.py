@@ -14,13 +14,22 @@ def dashboard(request):
 
 # Vue globale : tous les ordinateurs
 def ordinateurs(request):
+    # Tous les ordinateurs
     pcs = Ordinateur.objects.all()
-    return render(request, "ordinateurs.html", {"pcs": pcs})
+
+    # Filtrer par type
+    bureaux = Ordinateur.objects.filter(type="Bureau")
+    portables = Ordinateur.objects.filter(type="Portable")
+
+    context = {
+        "pcs": pcs,
+        "bureaux": bureaux,
+        "portables": portables,
+    }
+    return render(request, "ordinateurs.html", context)
 
 
 # Vue Bureau uniquement
-
-
 def bureau(request):
     if request.method == "POST":
         type_pc = request.POST.get("type")
