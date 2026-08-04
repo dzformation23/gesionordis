@@ -17,5 +17,7 @@ urlpatterns = [
     path("employe/", views.employe, name="employe"),      # ajout
     path("employe/modifier/<int:pk>/", views.modifier_employe, name="modifier_employe"),
     path("employe/supprimer/<int:pk>/", views.supprimer_employe, name="supprimer_employe"),
+
+    path("rapport/", views.rapport, name="rapport"),  # ✅ Rapport des ordinateurs
     
 ]

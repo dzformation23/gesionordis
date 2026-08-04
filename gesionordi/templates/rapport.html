@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Ordinateurs{% endblock %}
+
+{% block content %}
+
+<main class="flex-grow-1 px-4 main-content">
+
+  <!-- ✅ Titre -->
+  <header class="topbar d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h4">📊 Rapport Ordinateurs</h1>
+    <div class="user-info">
+      <span>Bienvenue, Didier</span>
+      <span class="date small">{% now "d F Y" %}</span>
+    </div>
+  </header>
+
+  <!-- ✅ Tableau des ordinateurs -->
+ 
+    <div class="card-header bg-white text-dark d-flex justify-content-between align-items-center small">
+      <h5 class="mb-0">💻 Détails des Ordinateurs</h5>
+    </div>
+    
+
+      <table class="table table-hover table-striped align-middle">
+        <thead class="table-light small">
+            <tr>
+            <th>#</th>
+            <th style="text-align: center">Type</th>
+            <th style="text-align: center">Modèle</th>
+            <th style="text-align: center">N° Série</th>
+            <th style="text-align: center">Utilisateur</th>
+            <th style="text-align: center">Statut</th>
+            <th style="text-align: center">Date d’achat</th>
+            <th style="text-align: center">Durée de vie</th>
+            <th style="text-align: center">Restant</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pc in pcs %}
+            <tr class="small">
+            <td>{{ forloop.counter }}</td>
+            <td>{{ pc.type }}</td>
+            <td>{{ pc.modele }}</td>
+            <td>{{ pc.numero }}</td>
+            <td>{% if pc.utilisateur %}{{ pc.utilisateur.prenom }} {{ pc.utilisateur.nom }}{% else %}Non affecté{% endif %}</td>
+            <td class="small">
+                {% if pc.statut == "Actif" %}
+                    <span class="badge bg-success small">Actif</span>
+                {% elif pc.statut == "Disponible" %}
+                    <span class="badge bg-info small">Disponible</span>
+                {% elif pc.statut == "En maintenance" %}
+                    <span class="badge bg-danger small">En maintenance</span>
+                {% else %}
+                    <span class="badge bg-secondary small">{{ pc.statut }}</span>
+                {% endif %}
+            </td>
+
+            <td>{{ pc.date_achat|date:"d/m/Y" }}</td>
+            <td style="text-align: center">{{ pc.duree_vie }} ans</td>
+            <td style="text-align: center">
+                {% if pc.duree_restante %}
+                {{ pc.duree_restante }} ans
+                {% else %}
+                -
+                {% endif %}
+            </td>
+            </tr>
+            {% empty %}
+            <tr>
+            <td colspan="9" class="text-center text-muted">Aucun ordinateur enregistré</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+       </table>
+
+
+    </div>
+  </div>
+
+</main>
+{% endblock %}

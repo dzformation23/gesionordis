@@ -283,9 +283,17 @@
         <input type="text" id="edit-numero" name="numero" required>
       </div>
 
-      <div class="form-group">
-        <label for="edit-utilisateur">Utilisateur</label>
-        <input type="text" id="edit-utilisateur" name="utilisateur">
+      <div class="form-group Small">
+        <label for="utilisateur">Utilisateur</label>
+        <div class="input-icon">
+          <i class="bi bi-person"></i>
+           <select id="utilisateur" name="utilisateur">
+            <option value="">-- Aucun --</option>
+            {% for emp in employes %}
+              <option value="{{ emp.nom }}">{{ emp.prenom }} {{ emp.nom }}</option>
+            {% endfor %}
+          </select>
+        </div>
       </div>
 
       <div class="form-group">

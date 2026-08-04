@@ -123,8 +123,8 @@ footer {
 
 .card span {
   display: block;
-  font-size: 1em;
-  margin-top: 10px;
+  font-size: 2em;
+  margin-top: 5px;
   font-weight: bold;
 }
 
@@ -278,6 +278,15 @@ tbody td:first-child {
   transition: transform 0.3s ease, background 0.3s ease;
   font-size: 14px;       /* texte très petit */
 }
+
+
+.cards-row .card span {
+  display: block;
+  font-size: 2em;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
 
 /* ✅ Effet hover avec changement de couleur */
 .cards-row .card:hover {
@@ -1011,4 +1020,14 @@ td.actions a.text-danger:hover {
   font-size: 0.7em;
   padding: 4px 8px;
   border-radius: 8px;
+}
+
+
+
+
+
+.badge.small {
+  font-size: 0.7rem;   /* 👉 réduit la taille du texte */
+  padding: 4px 6px;    /* 👉 réduit l’espace interne */
+  border-radius: 6px;  /* 👉 arrondi plus discret */
 }

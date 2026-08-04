@@ -237,3 +237,6 @@ def supprimer_employe(request, pk):
 
 
 
+def rapport(request):
+    pcs = Ordinateur.objects.all()
+    return render(request, "rapport.html", {"pcs": pcs})
