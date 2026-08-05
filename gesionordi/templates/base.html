@@ -111,19 +111,18 @@ function closeModal() {
 }
 
 
-function openDetailModal(type, modele, designation, numero, utilisateur, statut, date, garantie, duree) {
-  // Remplir les champs du formulaire avec les valeurs passées
+function openDetailModal(type, modele, designation, numero, utilisateur, statut, date_achat, garantie, duree_vie) {
   document.getElementById("detail-type").value = type;
   document.getElementById("detail-modele").value = modele;
   document.getElementById("detail-designation").value = designation;
   document.getElementById("detail-numero").value = numero;
   document.getElementById("detail-utilisateur").value = utilisateur;
   document.getElementById("detail-statut").value = statut;
-  document.getElementById("detail-date").value = date;
+  document.getElementById("detail-date").value = date_achat;
   document.getElementById("detail-garantie").value = garantie;
-  document.getElementById("detail-duree").value = duree;
+  document.getElementById("detail-duree").value = duree_vie;
 
-  // Afficher le modal
+  // ✅ Affiche le modal
   document.getElementById("detailModal").style.display = "flex";
 }
 
@@ -139,13 +138,21 @@ function openEditModal(id, type, modele, designation, numero, utilisateur, statu
   document.getElementById("edit-modele").value = modele;
   document.getElementById("edit-designation").value = designation;
   document.getElementById("edit-numero").value = numero;
-  document.getElementById("edit-utilisateur").value = utilisateur;
   document.getElementById("edit-statut").value = statut;
   document.getElementById("edit-date").value = date;
   document.getElementById("edit-garantie").value = garantie;
   document.getElementById("edit-duree").value = duree;
 
-  document.querySelector("#editModal form").action = "/ordinateur/" + id + "/modifier/";
+  // ✅ Pré‑sélectionner l’utilisateur
+  let select = document.getElementById("edit-utilisateur");
+  if (utilisateur) {
+    select.value = utilisateur; // met l’ancien nom
+  } else {
+    select.value = ""; // aucun
+  }
+
+  // ✅ Mettre l’action du formulaire dynamiquement
+  document.getElementById("editForm").action = "/ordinateur/" + id + "/modifier/";
 
   document.getElementById("editModal").style.display = "flex";
 }

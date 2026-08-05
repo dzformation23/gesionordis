@@ -483,7 +483,7 @@ td.actions {
 td.actions a {
   margin: 0 5px;
   color: #0d6efd; /* bleu bootstrap */
-  font-size: 1.2rem; /* taille icône */
+  font-size: 11px; /* taille icône */
   text-decoration: none;
 }
 

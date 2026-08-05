@@ -39,12 +39,12 @@
     </thead>
    <tbody>
     {% for pc in pcs %}
-    <tr>
-      <td>{{ pc.type }}</td>
-      <td>{{ pc.modele }}</td>
-      <td>{{ pc.numero }}</td>
-      <td>{{ pc.utilisateur }}</td>
-      <td>
+    <tr class="small">
+      <td style="text-align: center;"class="small">{{ pc.type }}</td>
+      <td style="text-align: center;"class="small">{{ pc.modele }}</td>
+      <td style="text-align: center;"class="small">{{ pc.numero }}</td>
+      <td style="text-align: center;"class="small">{{ pc.utilisateur }}</td>
+      <td style="text-align: center;"class="small">
             {% if pc.statut == "Actif" %}
               <span class="badge bg-success">Actif</span>
             {% elif pc.statut == "Disponible" %}
@@ -55,9 +55,9 @@
               <span class="badge bg-secondary">{{ pc.statut }}</span>
             {% endif %}
       </td>
-      <td>{{ pc.date_achat }}</td>
-      <td>{{ pc.garantie }}</td>
-      <td>{{ pc.duree_vie }}</td>
+      <td style="text-align: center;" class="small">{{ pc.date_achat }}</td>
+      <td style="text-align: center;"class="small">{{ pc.garantie }}</td>
+      <td style="text-align: center;"class="small">{{ pc.duree_vie }}</td>
     </tr>
     {% endfor %}
   </tbody>

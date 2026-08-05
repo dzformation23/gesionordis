@@ -50,10 +50,10 @@
     </thead>
     <tbody>
         {% for pc in portables %}
-         <tr>
-        <td>{{ pc.modele }}</td>
-        <td>{{ pc.numero }}</td>
-        <td>{{ pc.utilisateur }}</td>
+         <tr class="small">
+        <td class="small">{{ pc.modele }}</td>
+        <td class="small">{{ pc.numero }}</td>
+        <td class="small">{{ pc.utilisateur }}</td>
         <td>
             {% if pc.statut == "Actif" %}
               <span class="badge bg-success">Actif</span>
@@ -65,14 +65,14 @@
               <span class="badge bg-secondary">{{ pc.statut }}</span>
             {% endif %}
         </td>
-        <td>{{ pc.date_achat }}</td>
-        <td>{{ pc.garantie }}</td>
-        <td>{{ pc.duree_vie }}</td>
+        <td class="small">{{ pc.date_achat }}</td>
+        <td class="small">{{ pc.garantie }}</td>
+        <td class="small">{{ pc.duree_vie }}</td>
        
-        <td class="actions">
+        <td class="actions small">
           <!-- Détail -->
           <a href="javascript:void(0)" 
-            class="btn-action" 
+            class="btn-action small" 
             title="Détails"
             onclick="openDetailModal('{{ pc.type }}','{{ pc.modele }}','{{ pc.designation }}',
             '{{ pc.numero }}','{{ pc.utilisateur }}','{{ pc.statut }}','{{ pc.date_achat }}',
@@ -82,7 +82,7 @@
 
           <!-- Modifier -->
           <a href="javascript:void(0)" 
-            class="btn-action" 
+            class="btn-action small" 
             title="Modifier"
             onclick="openEditModal('{{ pc.id }}','{{ pc.type }}','{{ pc.modele }}',
             '{{ pc.designation }}','{{ pc.numero }}','{{ pc.utilisateur }}',
@@ -95,7 +95,7 @@
 
           <!-- Supprimer -->
          <a href="javascript:void(0)" 
-            class="btn-action text-danger" 
+            class="btn-action small text-danger" 
             title="Supprimer"
             onclick="openDeleteModal('{% url 'supprimer_pc' pc.id %}')">
             <i class="bi bi-trash"></i>
@@ -111,7 +111,7 @@
 
 <!-- ✅ Fenêtre modale -->
 <div id="createModal" class="modal small">
-  <div class="modal-content">
+  <div class="modal-content small">
     <span class="close" onclick="closeModal()">&times;</span>
     <h3 class="small">➕ Ajouter un Ordinateur</h3>
     <form method="post" action="#">
@@ -255,45 +255,45 @@
 
 {% for pc in portables %}
 
-<!-- ✅ Fenêtre modale Modifier -->
-<div id="editModal" class="modal">
-  <div class="modal-content">
+<!-- ✅ Fenêtre modale Modifier (UN SEUL) -->
+<div id="editModal" class="modal small">
+  <div class="modal-content small">
     <span class="close" onclick="closeEditModal()">&times;</span>
     <h3>✏️ Modifier l’Ordinateur</h3>
-    <form method="post" action="{% url 'modifier_pc' pk=pc.id %}">
+    <form method="post" action="" id="editForm">
       {% csrf_token %}
       
-      <div class="form-group">
+      <div class="form-group small">
         <label for="edit-type">Type</label>
         <input type="text" id="edit-type" name="type" readonly>
       </div>
 
-      <div class="form-group">
+      <div class="form-group small">
         <label for="edit-modele">Modèle</label>
         <input type="text" id="edit-modele" name="modele" required>
       </div>
 
-      <div class="form-group">
+      <div class="form-group small">
         <label for="edit-designation">Désignation</label>
         <input type="text" id="edit-designation" name="designation" required>
       </div>
 
-      <div class="form-group">
+      <div class="form-group small">
         <label for="edit-numero">N° Série</label>
         <input type="text" id="edit-numero" name="numero" required>
       </div>
 
-      <div class="form-group Small">
-        <label for="utilisateur">Utilisateur</label>
-        <div class="input-icon">
-          <i class="bi bi-person"></i>
-           <select id="utilisateur" name="utilisateur">
-            <option value="">-- Aucun --</option>
-            {% for emp in employes %}
-              <option value="{{ emp.nom }}">{{ emp.prenom }} {{ emp.nom }}</option>
-            {% endfor %}
-          </select>
-        </div>
+      <div class="form-group small">
+        <label for="edit-utilisateur">Utilisateur</label>
+        <select id="edit-utilisateur" name="utilisateur">
+          <option value="">-- Aucun --</option>
+          {% for emp in employes %}
+            <option value="{{ emp.nom }}" 
+              {% if pc.utilisateur and pc.utilisateur.id == emp.id %}selected{% endif %}>
+              {{ emp.prenom }} {{ emp.nom }}
+            </option>
+          {% endfor %}
+        </select>
       </div>
 
       <div class="form-group">
@@ -307,9 +307,8 @@
 
       <div class="form-group">
         <label for="edit-date">Date d’Achat</label>
-        <input type="date" id="edit-date" name="date_achat" value="{{ pc.date_achat|date:'Y-m-d' }}">
+        <input type="date" id="edit-date" name="date_achat">
       </div>
-
 
       <div class="form-group">
         <label for="edit-garantie">Garantie</label>
@@ -325,8 +324,6 @@
     </form>
   </div>
 </div>
-
-
 
 
 

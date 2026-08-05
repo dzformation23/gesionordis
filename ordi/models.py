@@ -48,3 +48,22 @@ class Ordinateur(models.Model):
     
     def __str__(self):
         return f"{self.type} - {self.modele} ({self.numero})"
+
+
+
+
+class Affectation(models.Model):
+    ordinateur = models.ForeignKey("Ordinateur", on_delete=models.CASCADE, related_name="affectations")
+    employe = models.ForeignKey("Employe", on_delete=models.CASCADE)
+    prenom_snapshot = models.CharField(max_length=100)
+    nom_snapshot = models.CharField(max_length=100)
+    date_affectation = models.DateField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if self.employe:
+            self.prenom_snapshot = self.employe.prenom
+            self.nom_snapshot = self.employe.nom
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.prenom_snapshot} {self.nom_snapshot} ({self.date_affectation})"
